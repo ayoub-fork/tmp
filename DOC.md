@@ -55,10 +55,10 @@ The snippets for a given filetype have to be added to luasnip via
 globally (in all filetypes) have to be added to the special filetype `all`.
 ```lua
 ls.add_snippets("all", {
-	s("ternary", {
-		-- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
-		i(1, "cond"), t(" ? "), i(2, "then"), t(" : "), i(3, "else")
-	})
+  s("ternary", {
+    -- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
+    i(1, "cond"), t(" ? "), i(2, "then"), t(" : "), i(3, "else")
+  })
 })
 ```
 It is possible to make snippets from one filetype available to another using
@@ -138,9 +138,9 @@ The third argument (`opts`) is a table with the following valid keys:
   should be set as follows:
   ```lua
   {
-  	[2] = {
-  		[events.enter] = function(node) print("2!") end
-  	}
+    [2] = {
+      [events.enter] = function(node) print("2!") end
+    }
   }
   ```
   To register a callback for the snippets' own events, the key `[-1]` may
@@ -149,7 +149,7 @@ The third argument (`opts`) is a table with the following valid keys:
 - `child_ext_opts`, `merge_child_ext_opts`: `ext_opts` applied to the children
   of this snippet. More info [here](#ext_opts).
 
-This `opts`-table can also be passed to eg.	`snippetNode` or `indentSnippetNode`,
+This `opts`-table can also be passed to eg.  `snippetNode` or `indentSnippetNode`,
 but only `callbacks` and the `ext_opts`-related options are used there.
 
 Snippets contain some interesting tables, eg. `snippet.env` contains variables
@@ -186,7 +186,7 @@ string:
 
 ```lua
 s("trigger", {
-	t({"Wow! Text!", "And another line."})
+  t({"Wow! Text!", "And another line."})
 })
 ```
 
@@ -200,9 +200,9 @@ The functionality is best demonstrated with an example:
 
 ```lua
 s("trigger", {
-	t({"After expanding, the cursor is here ->"}), i(1),
-	t({"", "After jumping forward once, cursor is here ->"}), i(2),
-	t({"", "After jumping once more, the snippet is exited there ->"}), i(0),
+  t({"After expanding, the cursor is here ->"}), i(1),
+  t({"", "After jumping forward once, cursor is here ->"}), i(2),
+  t({"", "After jumping once more, the snippet is exited there ->"}), i(0),
 })
 ```
 
@@ -220,9 +220,9 @@ after all other nodes.
 The jumping-order doesn't have to follow the "textual" order of the nodes:
 ```lua
 s("trigger", {
-	t({"After jumping forward once, cursor is here ->"}), i(2),
-	t({"", "After expanding, the cursor is here ->"}), i(1),
-	t({"", "After jumping once more, the snippet is exited there ->"}), i(0),
+  t({"After jumping forward once, cursor is here ->"}), i(2),
+  t({"", "After expanding, the cursor is here ->"}), i(1),
+  t({"", "After jumping once more, the snippet is exited there ->"}), i(0),
 })
 ```
 The above snippet will behave as follows:
@@ -235,13 +235,13 @@ An **important** (because here luasnip differs from other snippet-engines) detai
 is that the jump-positions restart at 1 in nested snippets:
 ```lua
 s("trigger", {
-	i(1, "First jump"),
-	t(" :: "),
-	sn(2, {
-		i(1, "Second jump"),
-		t" : ",
-		i(2, "Third jump")
-	})
+  i(1, "First jump"),
+  t(" :: "),
+  sn(2, {
+    i(1, "Second jump"),
+    t" : ",
+    i(2, "Third jump")
+  })
 })
 ```
 
@@ -256,7 +256,7 @@ textmate-snippet will expand correctly).
 It's possible to have initial text inside an InsertNode, which is comfortable
 for potentially keeping some default-value:
 ```lua
-	s("trigger", i(1, "This text is SELECTed after expanding the snippet."))
+  s("trigger", i(1, "This text is SELECTed after expanding the snippet."))
 ```
 This initial text is defined the same way as textNodes, eg. can be multiline.
 
@@ -271,11 +271,11 @@ Function Nodes insert text based on the content of other nodes using a
 user-defined function:
 ```lua
  s("trig", {
- 	i(1),
- 	f(function(args, snip, user_arg_1) return args[1][1] .. user_arg_1 end,
- 		{1},
- 		{ user_args = {"Will be appended to text from i(0)"}}),
- 	i(0)
+   i(1),
+   f(function(args, snip, user_arg_1) return args[1][1] .. user_arg_1 end,
+     {1},
+     { user_args = {"Will be appended to text from i(0)"}}),
+   i(0)
  })
 ```
 The first parameter of `f` is the function. Its parameters are:
@@ -315,16 +315,16 @@ These exist to more easily reuse functionNode-functions, when applicable:
 
 ```lua
 local function reused_func(_,_, user_arg1)
-	return user_arg1
+  return user_arg1
 end
 
 s("trig", {
-	f(reused_func, {}, {
-		user_args = {"text"}
-	}),
-	f(reused_func, {}, {
-		user_args = {"different text"}
-	}),
+  f(reused_func, {}, {
+    user_args = {"text"}
+  }),
+  f(reused_func, {}, {
+    user_args = {"different text"}
+  }),
 })
 ```
 
@@ -333,8 +333,8 @@ Use captures from the regex-trigger using a functionNode:
 
 ```lua
 s({trig = "b(%d)", regTrig = true},
-	f(function(args, snip) return
-		"Captured Text: " .. snip.captures[1] .. "." end, {})
+  f(function(args, snip) return
+    "Captured Text: " .. snip.captures[1] .. "." end, {})
 )
 ```
 
@@ -342,32 +342,32 @@ The table passed to functionNode:
 
 ```lua
 s("trig", {
-	i(1, "text_of_first"),
-	i(2, {"first_line_of_second", "second_line_of_second"}),
-	-- order is 2,1, not 1,2!!
-	f(function(args, snip)
-		--here
-	end, {2, 1} )})
+  i(1, "text_of_first"),
+  i(2, {"first_line_of_second", "second_line_of_second"}),
+  -- order is 2,1, not 1,2!!
+  f(function(args, snip)
+    --here
+  end, {2, 1} )})
 ```
 
 At `--here`, `args` would look as follows (provided no text was changed after
 expansion):
 ```lua
 args = {
-	{"first_line_of_second", "second_line_of_second"},
-	{"text_of_first"}
+  {"first_line_of_second", "second_line_of_second"},
+  {"text_of_first"}
 }
 ```
 
 One more example to show usage of `absolute_indexer`:
 ```lua
 s("trig", {
-	i(1, "text_of_first"),
-	i(2, {"first_line_of_second", "second_line_of_second"}),
-	f(function(args, snip)
-		-- just concat first lines of both.
-		return args[1][1] .. args[2][1]
-	end, {ai[2], ai[1]} )})
+  i(1, "text_of_first"),
+  i(2, {"first_line_of_second", "second_line_of_second"}),
+  f(function(args, snip)
+    -- just concat first lines of both.
+    return args[1][1] .. args[2][1]
+  end, {ai[2], ai[1]} )})
 ```
 
 If the function only performs simple operations on text, consider using
@@ -379,9 +379,9 @@ ChoiceNodes allow choosing between multiple nodes.
 
 ```lua
  s("trig", c(1, {
- 	t("Ugh boring, a text node"),
- 	i(nil, "At least I can edit something now..."),
- 	f(function(args) return "Still only counts as text!!" end, {})
+   t("Ugh boring, a text node"),
+   i(nil, "At least I can edit something now..."),
+   f(function(args) return "Still only counts as text!!" end, {})
  }))
 ```
 
@@ -392,13 +392,13 @@ will be converted into a `snippetNode`.
 The third parameter is a table of options with the following keys:
 
 - `restore_cursor`: `false` by default. If it is set and the node that was
-	being edited also appears in the switched-to choice (can be the case if a
-	`restoreNode` is present in both choice) the cursor is restored relative to
-	that node.
-	The default is `false` as enabling might lead to worse performance. It's
-	possible to override the default by wrapping the `choiceNode`-constructor
-	in another function that sets `opts.restore_cursor` to `true` and then using
-	that to construct `choiceNode`s:
+  being edited also appears in the switched-to choice (can be the case if a
+  `restoreNode` is present in both choice) the cursor is restored relative to
+  that node.
+  The default is `false` as enabling might lead to worse performance. It's
+  possible to override the default by wrapping the `choiceNode`-constructor
+  in another function that sets `opts.restore_cursor` to `true` and then using
+  that to construct `choiceNode`s:
     ```lua
     local function restore_cursor_choice(pos, choices, opts)
         if opts then
@@ -421,10 +421,10 @@ impossible to change the choice.
 
 ```lua
 c(1, {
-	t"some text", -- textNodes are just stopped at.
-	i(nil, "some text"), -- likewise.
-	sn(nil, {t"some text"}) -- this will not work!
-	sn(nil, {i(1), t"some text"}) -- this will.
+  t"some text", -- textNodes are just stopped at.
+  i(nil, "some text"), -- likewise.
+  sn(nil, {t"some text"}) -- this will not work!
+  sn(nil, {i(1), t"some text"}) -- this will.
 })
 ```
 
@@ -442,8 +442,8 @@ specifying when to expand, snippetNodes, similar to insertNodes, expect a
 number, as they too are jumpable:
 ```lua
  s("trig", sn(1, {
- 	t("basically just text "),
- 	i(1, "And an insertNode.")
+   t("basically just text "),
+   i(1, "And an insertNode.")
  }))
 ```
 
@@ -458,10 +458,10 @@ nodes it's possible to override that behaviour:
 
 ```lua
 s("isn", {
-	isn(1, {
-		t({"This is indented as deep as the trigger",
-		"and this is at the beginning of the next line"})
-	}, "")
+  isn(1, {
+    t({"This is indented as deep as the trigger",
+    "and this is at the beginning of the next line"})
+  }, "")
 })
 ```
 
@@ -476,7 +476,7 @@ string before the nodes of the snippet:
 
 ```lua
 s("isn2", {
-	isn(1, t({"//This is", "A multiline", "comment"}), "$PARENT_INDENT//")
+  isn(1, t({"//This is", "A multiline", "comment"}), "$PARENT_INDENT//")
 })
 ```
 
@@ -526,16 +526,16 @@ Examples:
 
 ```lua
 s("trig", {
-	t"text: ", i(1), t{"", "copy: "},
-	d(2, function(args)
-			-- the returned snippetNode doesn't need a position; it's inserted
-			-- "inside" the dynamicNode.
-			return sn(nil, {
-				-- jump-indices are local to each snippetNode, so restart at 1.
-				i(1, args[1])
-			})
-		end,
-	{1})
+  t"text: ", i(1), t{"", "copy: "},
+  d(2, function(args)
+      -- the returned snippetNode doesn't need a position; it's inserted
+      -- "inside" the dynamicNode.
+      return sn(nil, {
+        -- jump-indices are local to each snippetNode, so restart at 1.
+        i(1, args[1])
+      })
+    end,
+  {1})
 })
 ```
 
@@ -544,48 +544,48 @@ first `insertNode`.
 
 ```lua
 local function lines(args, parent, old_state, initial_text)
-	local nodes = {}
-	old_state = old_state or {}
+  local nodes = {}
+  old_state = old_state or {}
 
-	-- count is nil for invalid input.
-	local count = tonumber(args[1][1])
-	-- Make sure there's a number in args[1].
-	if count then
-		for j=1, count do
-			local iNode
-			if old_state and old_state[j] then
-				-- old_text is used internally to determine whether
-				-- dependents should be updated. It is updated whenever the
-				-- node is left, but remains valid when the node is no
-				-- longer 'rendered', whereas node:get_text() grabs the text
-				-- directly from the node.
-				iNode = i(j, old_state[j].old_text)
-			else
-			  iNode = i(j, initial_text)
-			end
-			nodes[2*j-1] = iNode
+  -- count is nil for invalid input.
+  local count = tonumber(args[1][1])
+  -- Make sure there's a number in args[1].
+  if count then
+    for j=1, count do
+      local iNode
+      if old_state and old_state[j] then
+        -- old_text is used internally to determine whether
+        -- dependents should be updated. It is updated whenever the
+        -- node is left, but remains valid when the node is no
+        -- longer 'rendered', whereas node:get_text() grabs the text
+        -- directly from the node.
+        iNode = i(j, old_state[j].old_text)
+      else
+        iNode = i(j, initial_text)
+      end
+      nodes[2*j-1] = iNode
 
-			-- linebreak
-			nodes[2*j] = t({"",""})
-			-- Store insertNode in old_state, potentially overwriting older
-			-- nodes.
-			old_state[j] = iNode
-		end
-	else
-		nodes[1] = t("Enter a number!")
-	end
+      -- linebreak
+      nodes[2*j] = t({"",""})
+      -- Store insertNode in old_state, potentially overwriting older
+      -- nodes.
+      old_state[j] = iNode
+    end
+  else
+    nodes[1] = t("Enter a number!")
+  end
 
-	local snip = sn(nil, nodes)
-	snip.old_state = old_state
-	return snip
+  local snip = sn(nil, nodes)
+  snip.old_state = old_state
+  return snip
 end
 
 ...
 
 s("trig", {
-	i(1, "1"),
-	-- pos, function, argnodes, opts (containing the user_arg).
-	d(2, lines, {1}, {user_args = {"Sample Text"}})
+  i(1, "1"),
+  -- pos, function, argnodes, opts (containing the user_arg).
+  d(2, lines, {1}, {user_args = {"Sample Text"}})
 })
 ```
 This snippet would start out as `"1\nSample Text"` and, upon changing the 1 to
@@ -603,15 +603,15 @@ example:
 
 ```lua
 s("paren_change", {
-	c(1, {
-		sn(nil, { t("("), r(1, "user_text"), t(")") }),
-		sn(nil, { t("["), r(1, "user_text"), t("]") }),
-		sn(nil, { t("{"), r(1, "user_text"), t("}") }),
-	}),
+  c(1, {
+    sn(nil, { t("("), r(1, "user_text"), t(")") }),
+    sn(nil, { t("["), r(1, "user_text"), t("]") }),
+    sn(nil, { t("{"), r(1, "user_text"), t("}") }),
+  }),
 }, {
-	stored = {
-		user_text = i(1, "default_text")
-	}
+  stored = {
+    user_text = i(1, "default_text")
+  }
 })
 ```
 
@@ -644,12 +644,12 @@ The `restoreNode` is also useful for storing user-input across updates of a
 
 ```lua
 local function simple_restore(args, _)
-	return sn(nil, {i(1, args[1]), i(2, "user_text")})
+  return sn(nil, {i(1, args[1]), i(2, "user_text")})
 end
 
 s("rest", {
-	i(1, "preset"), t{"",""},
-	d(2, simple_restore, 1)
+  i(1, "preset"), t{"",""},
+  d(2, simple_restore, 1)
 }),
 ```
 
@@ -659,12 +659,12 @@ Every time the `i(1)` in the outer snippet is changed, the text inside the
 
 ```lua
 local function simple_restore(args, _)
-	return sn(nil, {i(1, args[1]), r(2, "dyn", i(nil, "user_text"))})
+  return sn(nil, {i(1, args[1]), r(2, "dyn", i(nil, "user_text"))})
 end
 
 s("rest", {
-	i(1, "preset"), t{"",""},
-	d(2, simple_restore, 1)
+  i(1, "preset"), t{"",""},
+  d(2, simple_restore, 1)
 }),
 ```
 Now the entered text is stored.
@@ -681,55 +681,55 @@ snippetNode (nested inside a choiceNode to make this example more practical):
 
 ```lua
 s("trig", {
-	i(1), c(2, {
-		sn(nil, {
-			t"cannot access the argnode :(", f(function(args) return args[1] end, {???})
-		}),
-		t"sample_text"
-	})
+  i(1), c(2, {
+    sn(nil, {
+      t"cannot access the argnode :(", f(function(args) return args[1] end, {???})
+    }),
+    t"sample_text"
+  })
 })
 ```
 
 Using `absolute_indexer`, it's possible to do so:
 ```lua
 s("trig", {
-	i(1), c(2, {
-		sn(nil, { i(1),
-			t"can access the argnode :)", f(function(args) return args[1] end, ai[1])
-		}),
-		t"sample_text"
-	})
+  i(1), c(2, {
+    sn(nil, { i(1),
+      t"can access the argnode :)", f(function(args) return args[1] end, ai[1])
+    }),
+    t"sample_text"
+  })
 })
 ```
 
 There are some quirks in addressing nodes:
 ```lua
 s("trig", {
-	i(2), -- ai[2]: indices based on insert-order, not position.
-	sn(1, { -- ai[1]
-		i(1), -- ai[1][1]
-		t"lel", -- not addressable.
-		i(2) -- ai[1][2]
-	}),
-	c(3, { -- ai[3]
-		i(nil), -- ai[3][1]
-		t"lel", -- ai[3][2]: choices are always addressable.
-	}),
-	d(4, function() -- ai[4]
-		return sn(nil, { -- ai[4][0]
-			i(1), -- ai[4][0][1]
-		})
-	end, {})
-	}))
-	r(5, "restore_key", -- ai[5]
-		i(1) -- ai[5][0][1]: restoreNodes always store snippetNodes.
-	)
-	r(6, "restore_key_2", -- ai[6]
-		sn(nil, { -- ai[6][0]
-			i(1) -- ai[6][0][1]
-		})
-	)
-	}))
+  i(2), -- ai[2]: indices based on insert-order, not position.
+  sn(1, { -- ai[1]
+    i(1), -- ai[1][1]
+    t"lel", -- not addressable.
+    i(2) -- ai[1][2]
+  }),
+  c(3, { -- ai[3]
+    i(nil), -- ai[3][1]
+    t"lel", -- ai[3][2]: choices are always addressable.
+  }),
+  d(4, function() -- ai[4]
+    return sn(nil, { -- ai[4][0]
+      i(1), -- ai[4][0][1]
+    })
+  end, {})
+  }))
+  r(5, "restore_key", -- ai[5]
+    i(1) -- ai[5][0][1]: restoreNodes always store snippetNodes.
+  )
+  r(6, "restore_key_2", -- ai[6]
+    sn(nil, { -- ai[6][0]
+      i(1) -- ai[6][0][1]
+    })
+  )
+  }))
 })
 ```
 
@@ -768,8 +768,8 @@ The complete signature for the node is `match(argnodes, condition, then, else)`,
       Useful if string-manipulations have to be performed before the string is matched.
 
   * `then` is inserted if the condition matches, `else` if it doesn't. They can
-  	both be either text, lambda or function (with the same parameters as
-  	specified above).
+    both be either text, lambda or function (with the same parameters as
+    specified above).
   If `then` is not given, the `then`-value depends on what was specified as the
   `condition`:
     * pattern: Simply the return value from the `match`, eg. the entire match,
@@ -787,9 +787,9 @@ The complete signature for the node is `match(argnodes, condition, then, else)`,
 
   * ```lua
     s("trig", {
-    	i(1), t":",
-    	i(2), t"::",
-    	m({1, 2}, lambda._1:match("^"..lambda._2.."$"), lambda._1:gsub("a", "e"))
+      i(1), t":",
+      i(2), t"::",
+      m({1, 2}, lambda._1:match("^"..lambda._2.."$"), lambda._1:gsub("a", "e"))
     })
     ```
     This inserts the text of the first insertNode, with all occurences of `a`
@@ -863,8 +863,8 @@ ls.parser.parse_snippet({trig = "lsp"}, "$1 is ${2|hard,easy,challenging|}")
 
 Nested placeholders(`"${1:this is ${2:nested}}"`) will be turned into
 choiceNode's with:
-	- the given snippet(`"this is ${1:nested}"`) and
-	- an empty insertNode
+  - the given snippet(`"this is ${1:nested}"`) and
+  - an empty insertNode
 
 
 
@@ -880,9 +880,9 @@ All variables can be used outside of lsp-parsed snippets as their values are
 stored in a snippets' `snip.env`-table:
 ```lua
 s("selected_text", {
-	-- the surrounding snippet is passed in args after all argnodes (none,
-	-- in this case).
-	f(function(args, snip) return snip.env.SELECT_RAW end, {})
+  -- the surrounding snippet is passed in args after all argnodes (none,
+  -- in this case).
+  f(function(args, snip) return snip.env.SELECT_RAW end, {})
 })
 ```
 
@@ -902,15 +902,15 @@ require("luasnip.loaders.from_vscode").load(opts) -- opts can be ommited
 ```
 
 Where `opts` is a table containing the keys:
-	-  `paths`: List of paths to load. Can be a table or a single,
-		comma-separated string. If not set, `runtimepath` is used. The paths
-		may begin with `~/` or `./` to indicate that the path is relative to
-		your home or to the folder where your `$MYVIMRC` resides (useful to
-		add your snippets). The directories passed this way must be structured
-		like [`friendly-snippets`](https://github.com/rafamadriz/friendly-snippets)
-		eg. include a `package.json`.
-	-  `exclude`: List of languages to exclude, by default is empty.
-	-  `include`: List of languages to include, by default is not set.
+  -  `paths`: List of paths to load. Can be a table or a single,
+    comma-separated string. If not set, `runtimepath` is used. The paths
+    may begin with `~/` or `./` to indicate that the path is relative to
+    your home or to the folder where your `$MYVIMRC` resides (useful to
+    add your snippets). The directories passed this way must be structured
+    like [`friendly-snippets`](https://github.com/rafamadriz/friendly-snippets)
+    eg. include a `package.json`.
+  -  `exclude`: List of languages to exclude, by default is empty.
+  -  `include`: List of languages to include, by default is not set.
 
 The last two are useful mainly to avoid loading snippets from 3erd parties you
 don't wanna include.
@@ -1028,15 +1028,15 @@ Example:
 `~/snippets/all.lua`:
 ```lua
 return {
-	ls.parser.parse_snippet("trig", "loaded!!")
+  ls.parser.parse_snippet("trig", "loaded!!")
 }
 ```
 `~/snippets/c.lua`:
 ```lua
 return {
-	ls.parser.parse_snippet("ctrig", "also loaded!!")
+  ls.parser.parse_snippet("ctrig", "also loaded!!")
 }, {
-	ls.parser.parse_snippet("autotrig", "autotriggered, if enabled")
+  ls.parser.parse_snippet("autotrig", "autotriggered, if enabled")
 }
 ```
 
@@ -1076,33 +1076,33 @@ virtual text to the line the node begins on.
 This is an example for the `node_ext_opts` used to set `ext_opts` of single nodes:
 ```lua
 local ext_opts = {
-	-- these ext_opts are applied when the node is active (eg. it has been
-	-- jumped into, and not out yet).
-	active = 
-	-- this is the table actually passed to `nvim_buf_set_extmark`.
-	{
-		-- highlight the text inside the node red.
-		hl_group = "GruvboxRed"
-	},
-	-- these ext_opts are applied when the node is not active, but
-	-- the snippet still is.
-	passive = {
-		-- add virtual text on the line of the node, behind all text.
-		virt_text = {{"virtual text!!", "GruvboxBlue"}}
-	},
-	-- and these are applied when both the node and the snippet are inactive.
-	snippet_passive = {}
+  -- these ext_opts are applied when the node is active (eg. it has been
+  -- jumped into, and not out yet).
+  active = 
+  -- this is the table actually passed to `nvim_buf_set_extmark`.
+  {
+    -- highlight the text inside the node red.
+    hl_group = "GruvboxRed"
+  },
+  -- these ext_opts are applied when the node is not active, but
+  -- the snippet still is.
+  passive = {
+    -- add virtual text on the line of the node, behind all text.
+    virt_text = {{"virtual text!!", "GruvboxBlue"}}
+  },
+  -- and these are applied when both the node and the snippet are inactive.
+  snippet_passive = {}
 }
 
 ...
 
 s("trig", {
-	i(1, "text1", {
-		node_ext_opts = ext_opts
-	}),
-	i(2, "text2", {
-		node_ext_opts = ext_opts
-	})
+  i(1, "text1", {
+    node_ext_opts = ext_opts
+  }),
+  i(2, "text2", {
+    node_ext_opts = ext_opts
+  })
 })
 ```
 
@@ -1128,19 +1128,19 @@ set of `ext_opts` should be applied to:
 local types = require("luasnip.util.types")
 
 ls.config.setup({
-	ext_opts = {
-		[types.insertNode] = {
-			active = {...},
-			passive = {...},
-			snippet_passive = {...}
-		},
-		[types.choiceNode] = {
-			active = {...}
-		},
-		[types.snippet] = {
-			passive = {...}
-		}
-	}
+  ext_opts = {
+    [types.insertNode] = {
+      active = {...},
+      passive = {...},
+      snippet_passive = {...}
+    },
+    [types.choiceNode] = {
+      active = {...}
+    },
+    [types.snippet] = {
+      passive = {...}
+    }
+  }
 })
 ```
 
@@ -1151,13 +1151,13 @@ snippets...
 local types = require("luasnip.util.types")
 
 s("trig", { i(1, "text1"), i(2, "text2") }, {
-	child_ext_opts = {
-		[types.insertNode] = {
-			passive = {
-				hl_group = "GruvboxAqua"
-			}
-		}
-	}
+  child_ext_opts = {
+    [types.insertNode] = {
+      passive = {
+        hl_group = "GruvboxAqua"
+      }
+    }
+  }
 })
 ```
 ... while the `ext_opts` here are only applied to the `insertNodes` inside this
@@ -1175,28 +1175,28 @@ It's possible to prevent both of these merges by passing
 
 ```lua
 ls.config.setup({
-	ext_opts = {
-		[types.insertNode] = {
-			active = {...}
-		}
-	}
+  ext_opts = {
+    [types.insertNode] = {
+      active = {...}
+    }
+  }
 })
 
 ...
 
 s("trig", {
-	i(1, "text1", {
-		node_ext_opts = {
-			active = {...}
-		},
-		merge_node_ext_opts = false
-	}), i(2, "text2") }, {
-	child_ext_opts = {
-		[types.insertNode] = {
-			passive = {...}
-		}
-	},
-	merge_child_ext_opts = false
+  i(1, "text1", {
+    node_ext_opts = {
+      active = {...}
+    },
+    merge_node_ext_opts = false
+  }), i(2, "text2") }, {
+  child_ext_opts = {
+    [types.insertNode] = {
+      passive = {...}
+    }
+  },
+  merge_child_ext_opts = false
 })
 ```
 
@@ -1229,23 +1229,23 @@ Both the initial base-priority and its' increase and can be controlled using
 `ext_base_prio` and `ext_prio_increase`:
 ```lua
 ls.config.setup({
-	ext_opts = {
-		[types.insertNode] = {
-			active = {
-				hl_group = "GruvboxBlue",
-				-- the priorities should be \in [0, ext_prio_increase).
-				priority = 1
-			}
-		},
-		[types.choiceNode] = {
-			active = {
-				hl_group = "GruvboxRed"
-				-- priority defaults to 0
-			}
-		}
-	}
-	ext_base_prio = 200,
-	ext_prio_increase = 2
+  ext_opts = {
+    [types.insertNode] = {
+      active = {
+        hl_group = "GruvboxBlue",
+        -- the priorities should be \in [0, ext_prio_increase).
+        priority = 1
+      }
+    },
+    [types.choiceNode] = {
+      active = {
+        hl_group = "GruvboxRed"
+        -- priority defaults to 0
+      }
+    }
+  }
+  ext_base_prio = 200,
+  ext_prio_increase = 2
 })
 ```
 Here the highlight of an insertNode nested directly inside a choiceNode is
@@ -1266,13 +1266,13 @@ variable and the index of the capture respectively
 
 ```lua
 s({trig = "(%d)", regTrig = true}, {
-	f(function(args, snip)
-		return string.rep("repeatme ", tonumber(snip.captures[1]))
-	end, {})
+  f(function(args, snip)
+    return string.rep("repeatme ", tonumber(snip.captures[1]))
+  end, {})
 }),
 ```
 
-This snippet works fine because	`snippet.captures[1]` is always a number.
+This snippet works fine because  `snippet.captures[1]` is always a number.
 During docstring-generation, however, `snippet.captures[1]` is `'$CAPTURES1'`,
 which will cause an error in the functionNode.
 Issues with `snippet.captures` can be prevented by specifying `docTrig` during
@@ -1280,9 +1280,9 @@ snippet-definition:
 
 ```lua
 s({trig = "(%d)", regTrig = true, docTrig = "3"}, {
-	f(function(args, snip)
-		return string.rep("repeatme ", tonumber(snip.captures[1]))
-	end, {})
+  f(function(args, snip)
+    return string.rep("repeatme ", tonumber(snip.captures[1]))
+  end, {})
 }),
 ```
 
@@ -1294,9 +1294,9 @@ Other issues will have to be handled manually by checking the contents of eg.
 
 ```lua
 s({trig = "(%d)", regTrig = true, docstring = "repeatmerepeatmerepeatme"}, {
-	f(function(args, snip)
-		return string.rep("repeatme ", tonumber(snip.captures[1]))
-	end, {})
+  f(function(args, snip)
+    return string.rep("repeatme ", tonumber(snip.captures[1]))
+  end, {})
 }),
 ```
 
@@ -1332,7 +1332,7 @@ be printing eg. the nodes' text after entering:
 
 ```vim
 au User LuasnipInsertNodeEnter
-	\lua print(require("luasnip").session.event_node:get_text()[1])
+  \lua print(require("luasnip").session.event_node:get_text()[1])
 ```
 
 # CLEANUP
@@ -1351,11 +1351,11 @@ the lazy_load.
   `opts` may contain the following keys:
   - `type`: type of `snippets`, `"snippets"` or `"autosnippets"`.
   - `key`: Key that identifies snippets added via this call.  
-	If `add_snippets` is called with a key that was already used, the snippets
-	from that previous call will be removed.  
-	This can be used to reload snippets: pass an unique key to each
-	`add_snippets` and just re-do the `add_snippets`-call when the snippets have
-	changed.
+  If `add_snippets` is called with a key that was already used, the snippets
+  from that previous call will be removed.  
+  This can be used to reload snippets: pass an unique key to each
+  `add_snippets` and just re-do the `add_snippets`-call when the snippets have
+  changed.
   - `override_priority`: set priority for all snippets.
   - `default_priority`: set priority only for snippets without snippet-priority.
 
@@ -1367,10 +1367,10 @@ the lazy_load.
   `opts` may contain:
 
   - `inv_limit`: how many invalidated snippets are allowed. If the number of
-  	invalid snippets doesn't exceed this threshold, they are not yet cleaned up.
+    invalid snippets doesn't exceed this threshold, they are not yet cleaned up.
 
-	A small number of invalidated snippets (<100) probably doesn't affect
-	runtime at all, whereas recreating the internal snippet storage might.
+  A small number of invalidated snippets (<100) probably doesn't affect
+  runtime at all, whereas recreating the internal snippet storage might.
 
 - `get_id_snippet(id)`: returns snippet corresponding to id.
 
